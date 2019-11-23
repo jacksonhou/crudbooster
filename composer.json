@@ -1,6 +1,6 @@
 {
     "name": "jacksonhou/crudbooster",
-    "description": "CRUDBooster Is CRUD Generator Based On Laravel Easy To Make An Advanced Backend",
+    "description": "CRUDBooster Is CRUD Generator Based On Laravel Easy To Make An Advanced Backend. And Resolve Some Bugs",
     "type": "project",
     "license": "MIT",
     "keywords":[
