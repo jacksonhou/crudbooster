@@ -16,6 +16,10 @@
         {
             "name": "Ferry",
             "email": "ferry@crocodic.com"
+        },
+        {
+            "name": "jackson",
+            "email": "houyongbo03@163.com"
         }
     ],
     "minimum-stability": "dev",
