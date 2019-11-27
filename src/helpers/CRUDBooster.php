@@ -1829,6 +1829,19 @@ class CRUDBooster
 	        //Your code here
 	            
 	    }
+	    
+	    /*
+	    | ---------------------------------------------------------------------- 
+	    | Hook for modify filter parameter befor query
+	    | ---------------------------------------------------------------------- 
+	    | @param $filter_column do with filter parameter
+        | @param $query query
+	    |
+        */
+        public function hook_query_filter(&$filter_column, &$query)
+        {
+            //Your code here
+        }
 
 	    /*
 	    | ---------------------------------------------------------------------- 
