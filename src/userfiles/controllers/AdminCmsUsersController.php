@@ -52,33 +52,10 @@ class AdminCmsUsersController extends \crocodicstudio\crudbooster\controllers\CB
 		$data['row']        = CRUDBooster::first('cms_users',CRUDBooster::myId());		
 		$this->cbView('crudbooster::default.form',$data);				
 	}
-	
-	public function hook_before_edit(&$postdata, $id)
-    {
-        if ($postdata['password'] != null && !\Hash::check($postdata['password_confirmation'], $postdata['password'])) {
-            $this->return_url = ($this->return_url) ? $this->return_url : Request::get('return_url');
-            CRUDBooster::redirect($this->return_url, trans("The two passwords are different!"));
-        } else {
-            unset($postdata['password_confirmation']);
-        }
-    }
-
-    public function hook_before_add(&$postdata)
-    {
-        $validator = \Validator::make(Request::all(), [
-            'password'              => 'required',
-            'password_confirmation' => ['required', 'same:password'],
-        ], [
-            'password.required'              => "Password can't be empty!",
-            'password_confirmation.required' => "Password confirmation can't be empty!",
-            'password_confirmation.same'     => 'The two passwords are different!',
-        ]);
-
-        if ($validator->fails()) {
-            $message = $validator->errors()->all();
-            CRUDBooster::redirect($_SERVER['HTTP_REFERER'], implode(', ', $message));
-        } else {
-            unset($postdata['password_confirmation']);
-        }
-    }
+	public function hook_before_edit(&$postdata,$id) { 
+		unset($postdata['password_confirmation']);
+	}
+	public function hook_before_add(&$postdata) {      
+	    unset($postdata['password_confirmation']);
+	}
 }

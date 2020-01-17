@@ -76,11 +76,19 @@ class CBController extends Controller
 
     public $button_delete = true;
 
+    // added by houyongbo 20200116 begin 删除按钮显示控制
+    public $button_delete_show_condition = '';
+    // added by houyongbo 20200116 end
+
     public $button_cancel = true;
 
     public $button_save = true;
 
     public $button_edit = true;
+
+    // added by houyongbo 20200116 begin 编辑按钮显示控制
+    public $button_edit_show_condition = '';
+    // added by houyongbo 20200116 end
 
     public $button_detail = true;
 
@@ -130,46 +138,48 @@ class CBController extends Controller
 
         $this->checkHideForm();
 
-        $this->primary_key                   = CB::pk($this->table);
-        $this->columns_table                 = $this->col;
-        $this->data_inputan                  = $this->form;
-        $this->data['pk']                    = $this->primary_key;
-        $this->data['forms']                 = $this->data_inputan;
-        $this->data['hide_form']             = $this->hide_form;
-        $this->data['addaction']             = ($this->show_addaction) ? $this->addaction : null;
-        $this->data['table']                 = $this->table;
-        $this->data['title_field']           = $this->title_field;
-        $this->data['appname']               = CRUDBooster::getSetting('appname');
-        $this->data['alerts']                = $this->alert;
-        $this->data['index_button']          = $this->index_button;
-        $this->data['show_numbering']        = $this->show_numbering;
-        $this->data['button_detail']         = $this->button_detail;
-        $this->data['button_edit']           = $this->button_edit;
-        $this->data['button_show']           = $this->button_show;
-        $this->data['button_add']            = $this->button_add;
-        $this->data['button_delete']         = $this->button_delete;
-        $this->data['button_filter']         = $this->button_filter;
-        $this->data['button_export']         = $this->button_export;
-        $this->data['button_addmore']        = $this->button_addmore;
-        $this->data['button_cancel']         = $this->button_cancel;
-        $this->data['button_save']           = $this->button_save;
-        $this->data['button_table_action']   = $this->button_table_action;
-        $this->data['button_bulk_action']    = $this->button_bulk_action;
-        $this->data['button_import']         = $this->button_import;
-        $this->data['button_action_width']   = $this->button_action_width;
-        $this->data['button_selected']       = $this->button_selected;
-        $this->data['index_statistic']       = $this->index_statistic;
-        $this->data['index_additional_view'] = $this->index_additional_view;
-        $this->data['table_row_color']       = $this->table_row_color;
-        $this->data['pre_index_html']        = $this->pre_index_html;
-        $this->data['post_index_html']       = $this->post_index_html;
-        $this->data['load_js']               = $this->load_js;
-        $this->data['load_css']              = $this->load_css;
-        $this->data['script_js']             = $this->script_js;
-        $this->data['style_css']             = $this->style_css;
-        $this->data['sub_module']            = $this->sub_module;
-        $this->data['parent_field']          = (g('parent_field')) ?: $this->parent_field;
-        $this->data['parent_id']             = (g('parent_id')) ?: $this->parent_id;
+        $this->primary_key                          = CB::pk($this->table);
+        $this->columns_table                        = $this->col;
+        $this->data_inputan                         = $this->form;
+        $this->data['pk']                           = $this->primary_key;
+        $this->data['forms']                        = $this->data_inputan;
+        $this->data['hide_form']                    = $this->hide_form;
+        $this->data['addaction']                    = ($this->show_addaction) ? $this->addaction : null;
+        $this->data['table']                        = $this->table;
+        $this->data['title_field']                  = $this->title_field;
+        $this->data['appname']                      = CRUDBooster::getSetting('appname');
+        $this->data['alerts']                       = $this->alert;
+        $this->data['index_button']                 = $this->index_button;
+        $this->data['show_numbering']               = $this->show_numbering;
+        $this->data['button_detail']                = $this->button_detail;
+        $this->data['button_edit']                  = $this->button_edit;
+        $this->data['button_edit_show_condition']   = $this->button_edit_show_condition;
+        $this->data['button_show']                  = $this->button_show;
+        $this->data['button_add']                   = $this->button_add;
+        $this->data['button_delete']                = $this->button_delete;
+        $this->data['button_delete_show_condition'] = $this->button_delete_show_condition;
+        $this->data['button_filter']                = $this->button_filter;
+        $this->data['button_export']                = $this->button_export;
+        $this->data['button_addmore']               = $this->button_addmore;
+        $this->data['button_cancel']                = $this->button_cancel;
+        $this->data['button_save']                  = $this->button_save;
+        $this->data['button_table_action']          = $this->button_table_action;
+        $this->data['button_bulk_action']           = $this->button_bulk_action;
+        $this->data['button_import']                = $this->button_import;
+        $this->data['button_action_width']          = $this->button_action_width;
+        $this->data['button_selected']              = $this->button_selected;
+        $this->data['index_statistic']              = $this->index_statistic;
+        $this->data['index_additional_view']        = $this->index_additional_view;
+        $this->data['table_row_color']              = $this->table_row_color;
+        $this->data['pre_index_html']               = $this->pre_index_html;
+        $this->data['post_index_html']              = $this->post_index_html;
+        $this->data['load_js']                      = $this->load_js;
+        $this->data['load_css']                     = $this->load_css;
+        $this->data['script_js']                    = $this->script_js;
+        $this->data['style_css']                    = $this->style_css;
+        $this->data['sub_module']                   = $this->sub_module;
+        $this->data['parent_field']                 = (g('parent_field')) ?: $this->parent_field;
+        $this->data['parent_id']                    = (g('parent_id')) ?: $this->parent_id;
 
         if ($this->sidebar_mode == 'mini') {
             $this->data['sidebar_mode'] = 'sidebar-mini';
@@ -1153,9 +1163,11 @@ class CBController extends Controller
 //         $this->arr[$this->primary_key] = $id = CRUDBooster::newId($this->table); //error on sql server
         $lastInsertId = $id = DB::table($this->table)->insertGetId($this->arr);
 
+        // deleted by houyongbo 20200115 begin 解决关联表中无法设置主表主键的问题
         //fix bug if primary key is uuid
-        if ($this->arr[$this->primary_key] != $id)
-            $id = $this->arr[$this->primary_key];
+        // if ($this->arr[$this->primary_key] != $id)
+        //     $id = $this->arr[$this->primary_key];
+        // deleted by houyongbo 20200115 end
 
         //Looping Data Input Again After Insert
         foreach ($this->data_inputan as $ro) {
@@ -1795,6 +1807,7 @@ class CBController extends Controller
     }
 
     // added by houyongbo 20191126 begin
+
     /**
      * modify filter parameter befor query
      * @param $filter_column do with filter parameter

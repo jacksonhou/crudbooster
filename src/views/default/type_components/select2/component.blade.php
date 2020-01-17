@@ -117,7 +117,8 @@
 
 @endif
 
-<div class='form-group {{$header_group_class}} {{ ($errors->first($name))?"has-error":"" }}' id='form-group-{{$name}}' style="{{@$form['style']}}">
+<div class='form-group {{$header_group_class}} {{ ($errors->first($name))?"has-error":"" }}' id='form-group-{{$name}}'
+     style="{{@$form['style']}}">
     <label class='control-label col-sm-2'>{{$form['label']}}
         @if($required)
             <span class='text-danger' title='{!! trans('crudbooster.this_field_is_required') !!}'>*</span>
@@ -126,7 +127,7 @@
 
     <div class="{{$col_width?:'col-sm-10'}}">
         <select style='width:100%' class='form-control' id="{{$name}}"
-                {{$required}} {{$readonly}} {!!$placeholder!!} {{$disabled}} name="{{$name}}{{($form['relationship_table'])?'[]':''}}" {{ ($form['relationship_table'])?'multiple="multiple"':'' }} >
+                {{$required}} {{$readonly}} {!!$placeholder!!} {{$disabled}} name="{{$name}}{{($form['relationship_table'])?'[]':''}}" {{ ($form['relationship_table']&&$form['select2_multiple'])?'multiple="multiple"':'' }} >
             @if($form['dataenum'])
                 <option value=''>{{trans('crudbooster.text_prefix_option')}} {{$form['label']}}</option>
                 <?php
@@ -138,8 +139,8 @@
                     $val = $lab = '';
                     if (strpos($enum, '|') !== FALSE) {
                         $draw = explode("|", $enum);
-                        $val = $draw[0];
-                        $lab = $draw[1];
+                        $val  = $draw[0];
+                        $lab  = $draw[1];
                     } else {
                         $val = $lab = $enum;
                     }
@@ -155,31 +156,38 @@
                     <?php
                     $select_table = explode(',', $form['datatable'])[0];
                     $select_title = explode(',', $form['datatable'])[1];
+                    $datatable_format = $form['datatable_format'];
                     $select_where = $form['datatable_where'];
                     $pk = CRUDBooster::findPrimaryKey($select_table);
 
                     $result = DB::table($select_table)->select($pk, $select_title);
+
+                    // added by houyongbo 20200115 begin
+                    if ($datatable_format) {
+                        $result->addSelect(DB::raw("CONCAT(" . $datatable_format . ") as $select_title"));
+                    }
+                    // added by houyongbo 20200115 end
                     if ($select_where) {
                         $result->whereraw($select_where);
                     }
                     $result = $result->orderby($select_title, 'asc')->get();
 
-                    if($form['datatable_orig'] != ''){
+                    if ($form['datatable_orig'] != '') {
                         $params = explode("|", $form['datatable_orig']);
-                        if(!isset($params[2])) $params[2] = "id";
+                        if (!isset($params[2])) $params[2] = "id";
                         $value = DB::table($params[0])->where($params[2], $id)->first()->{$params[1]};
                         $value = explode(",", $value);
                     } else {
-                        $foreignKey = CRUDBooster::getForeignKey($table, $form['relationship_table']);
+                        $foreignKey  = CRUDBooster::getForeignKey($table, $form['relationship_table']);
                         $foreignKey2 = CRUDBooster::getForeignKey($select_table, $form['relationship_table']);
-                        $value = DB::table($form['relationship_table'])->where($foreignKey, $id);
-                        $value = $value->pluck($foreignKey2)->toArray();
+                        $value       = DB::table($form['relationship_table'])->where($foreignKey, $id);
+                        $value       = $value->pluck($foreignKey2)->toArray();
                     }
-                    
+
                     foreach ($result as $r) {
                         $option_label = $r->{$select_title};
                         $option_value = $r->id;
-                        $selected = (is_array($value) && in_array($r->$pk, $value)) ? "selected" : "";
+                        $selected     = (is_array($value) && in_array($r->$pk, $value)) ? "selected" : "";
                         echo "<option $selected value='$option_value'>$option_label</option>";
                     }
                     ?>
@@ -194,7 +202,7 @@
                         $select_table_pk = CRUDBooster::findPrimaryKey($select_table);
                         $result = DB::table($select_table)->select($select_table_pk, $select_title);
                         if ($datatable_format) {
-                            $result->addSelect(DB::raw("CONCAT(".$datatable_format.") as $select_title"));
+                            $result->addSelect(DB::raw("CONCAT(" . $datatable_format . ") as $select_title"));
                         }
                         if ($select_where) {
                             $result->whereraw($select_where);
@@ -207,7 +215,7 @@
                         foreach ($result as $r) {
                             $option_label = $r->{$select_title};
                             $option_value = $r->$select_table_pk;
-                            $selected = ($option_value == $value) ? "selected" : "";
+                            $selected     = ($option_value == $value) ? "selected" : "";
                             echo "<option $selected value='$option_value'>$option_label</option>";
                         }
                         ?>
