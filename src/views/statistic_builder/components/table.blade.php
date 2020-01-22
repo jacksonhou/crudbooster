@@ -46,7 +46,8 @@
         }
         $sql = DB::select(DB::raw($value));
     } catch (\Exception $e) {
-        die('ERROR');
+        // die('ERROR');
+        echo $e;
     }
     ?>
 

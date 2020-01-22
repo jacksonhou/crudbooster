@@ -509,6 +509,8 @@ class CBController extends Controller
             }
         }
 
+        $this->hook_print_sql($result);
+
         $data['columns'] = $columns_table;
 
         if ($this->index_return) {
@@ -1817,5 +1819,11 @@ class CBController extends Controller
     {
 
     }
+
     // added by houyongbo 20191126 end
+
+
+    public function hook_print_sql($query)
+    {
+    }
 }

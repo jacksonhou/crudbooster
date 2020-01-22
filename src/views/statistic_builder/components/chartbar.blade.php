@@ -69,7 +69,7 @@
                     $datamerger[] = $r->value;
                 }
             } catch (\Exception $e) {
-
+                echo $e;
             }
 
             $dataPoints[$i] = $datamerger;

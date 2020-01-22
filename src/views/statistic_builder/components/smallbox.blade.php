@@ -67,7 +67,8 @@
             }
             echo reset(DB::select(DB::raw($value))[0]);
         } catch (\Exception $e) {
-            echo 'ERROR';
+            // echo 'ERROR';
+            echo $e;
         }
     } else {
         echo $value;
